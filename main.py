@@ -36,10 +36,10 @@ class MyProblem(Problem):
         locs = getattr(self.graph, 'locations', None)
         if locs:
             if type(node) is str:
-                return int(distance(locs[node], locs[self.goal]))
+                return int(distance(locs[node.state], locs[self.goal]))
                 #return int(locs[node] - locs[self.goal])
 
-            return int(distance(locs[node], locs[self.goal]))
+            return int(distance(locs[node.state], locs[self.goal]))
             #return int(locs[node.state] - locs[self.goal])
         else:
             return infinity
