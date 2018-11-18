@@ -33,18 +33,36 @@ class MyProblem(Problem):
 
     def h(self, node):
         """h function is straight-line distance from a node's state to goal."""
-        locs = getattr(self.graph, 'locations', None)
+        locs = getattr(self.graph, 'states', None)
         if locs:
             if type(node) is str:
-                return int(distance(locs[node], locs[self.goal]))
-                #return int(locs[node] - locs[self.goal])
+                return int(distance(locs[node.state], locs[self.goal]))
 
-            return int(distance(locs[node], locs[self.goal]))
-            #return int(locs[node.state] - locs[self.goal])
+            return int(distance(locs[node.state], locs[self.goal]))
         else:
             return infinity
 
-
+# a = initial_state, q = goal_state
+river_graph = UndirectedGraph(dict(
+    a = dict(b = infinity, c = infinity, d = 1, e = infinity),
+    d = dict(f = 1),
+    f = dict(d = 1, g = 1, h = 1),
+    g = dict(i = infinity, j = 1),
+    h = dict(k = 1, l = infinity),
+    j = dict(m = infinity, n = 1),
+    k = dict(n = 1, o = infinity),
+    n = dict(p = 1),
+    p = dict(q = 1),
+    q = dict(p = 1)
+))
+river_graph.states = dict(
+    a = (7,0), b = (infinity,0), c = (infinity,0),
+    d = (6,0), e = (infinity,0), f = (5,0),
+    g = (4,0), h = (4,0), i = (infinity,0),
+    j = (3,0), k = (3,0), l = (infinity,0),
+    m = (infinity, 0), n = (2,0), o = (infinity,0),
+    p = (1,0), q = (0,0)
+)
 
 def main():
 
@@ -57,71 +75,48 @@ def main():
         print("--- Breadth First Search ---")
         print("Nodes visited:")
         bfs = breadth_first_graph_search(romania_problem)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(bfs.solution())
         #print("Path cost: {0}".format(bfs.path_cost()))
 
         print("\n--- Depth First Search ---")
         print("Nodes visited:")
         dfs = depth_first_graph_search(romania_problem)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(dfs.solution())
 
         print("\n--- Uniform Cost Search ---")
         print("Nodes visited:")
         ucs = uniform_cost_search(romania_problem)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(ucs.solution())
 
         print("\n--- Best First Search ---")
         print("Nodes visited:")
         bestfs = best_first_graph_search(romania_problem, lambda node: node.state)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(bestfs.solution())
 
         print("\n--- A* Search: ---")
         print("Nodes visited:")
         astar = astar_search(romania_problem)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(astar.solution())
     else:
         # Task 2: A farmer, wolf, goat and cabbage problem
-
-        # cost = 1 equals a path that is allowed, if the cost = infinity it is a path to a state that is NOT allowed
-        # a = initial_state, q = goal_state
-        river_graph = UndirectedGraph(dict(
-            a = dict(b = 1000, c = 1000, d = 1, e = 1000),
-            d = dict(f = 1),
-            f = dict(d = 1, g = 1, h = 1),
-            g = dict(i = 1000, j = 1),
-            h = dict(k = 1, l = 1000),
-            j = dict(m = 1000, n = 1),
-            k = dict(n = 1, o = 1000),
-            n = dict(p = 1),
-            p = dict(q = 1),
-            q = dict(p = 1)
-        ))
-        river_graph.locations = dict(
-            a = (7,0), b = (1000,0), c = (1000,0),
-            d = (6,0), e = (1000,0), f = (5,0),
-            g = (4,0), h = (4,0), i = (1000,0),
-            j = (3,0), k = (3,0), l = (1000,0),
-            m = (1000, 0), n = (2,0), o = (1000,0),
-            p = (1,0), q = (0,0)
-        )
 
         river_problem = MyProblem('a','q', river_graph)
 
         print("--- Breadth First Search ---")
         print("Nodes visited:")
         bfs = breadth_first_graph_search(river_problem)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(bfs.solution())
 
         print("\n--- Depth First Search ---")
         print("Nodes visited:")
         dfs = depth_first_graph_search(river_problem)
-        print("Optimal way (initial_state not shown):")
+        print("Solution:")
         print(dfs.solution())
 
         """ print("\n--- A* Search ---")
