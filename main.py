@@ -37,10 +37,8 @@ class MyProblem(Problem):
         if locs:
             if type(node) is str:
                 return int(distance(locs[node.state], locs[self.goal]))
-                #return int(locs[node] - locs[self.goal])
 
             return int(distance(locs[node.state], locs[self.goal]))
-            #return int(locs[node.state] - locs[self.goal])
         else:
             return infinity
 
