@@ -33,36 +33,37 @@ class MyProblem(Problem):
 
     def h(self, node):
         """h function is straight-line distance from a node's state to goal."""
-        locs = getattr(self.graph, 'states', None)
+        locs = getattr(self.graph, 'locations', None)
         if locs:
             if type(node) is str:
                 return int(distance(locs[node.state], locs[self.goal]))
 
             return int(distance(locs[node.state], locs[self.goal]))
         else:
-            return infinity
+            return 10000
 
 # a = initial_state, q = goal_state
 river_graph = UndirectedGraph(dict(
-    a = dict(b = infinity, c = infinity, d = 1, e = infinity),
+    a = dict(b = 10000, c = 10000, d = 1, e = 10000),
     d = dict(f = 1),
     f = dict(d = 1, g = 1, h = 1),
-    g = dict(i = infinity, j = 1),
-    h = dict(k = 1, l = infinity),
-    j = dict(m = infinity, n = 1),
-    k = dict(n = 1, o = infinity),
+    g = dict(i = 10000, j = 1),
+    h = dict(k = 1, l = 10000),
+    j = dict(m = 10000, n = 1),
+    k = dict(n = 1, o = 10000),
     n = dict(p = 1),
     p = dict(q = 1),
     q = dict(p = 1)
 ))
-river_graph.states = dict(
-    a = (7,0), b = (infinity,0), c = (infinity,0),
-    d = (6,0), e = (infinity,0), f = (5,0),
-    g = (4,0), h = (4,0), i = (infinity,0),
-    j = (3,0), k = (3,0), l = (infinity,0),
-    m = (infinity, 0), n = (2,0), o = (infinity,0),
+river_graph.locations = dict(
+    a = (7,0), b = (10000,0), c = (10000,0),
+    d = (6,0), e = (10000,0), f = (5,0),
+    g = (4,0), h = (4,0), i = (10000,0),
+    j = (3,0), k = (3,0), l = (10000,0),
+    m = (10000, 0), n = (2,0), o = (10000,0),
     p = (1,0), q = (0,0)
 )
+
 
 def main():
 
@@ -93,6 +94,7 @@ def main():
 
         print("\n--- Best First Search ---")
         print("Nodes visited:")
+        #bestfs = best_first_graph_search(romania_problem, lambda node: node.state)
         bestfs = best_first_graph_search(romania_problem, lambda node: node.state)
         print("Solution:")
         print(bestfs.solution())
@@ -119,11 +121,11 @@ def main():
         print("Solution:")
         print(dfs.solution())
 
-        """ print("\n--- A* Search ---")
+        print("\n--- A* Search ---")
         print("Nodes visited:")
-        astar = astar_search(river_problem, lambda node: node.state)
+        astar = astar_search(river_problem)
         print("Optimal way (initial_state not shown):")
-        print(astar.solution()) """
+        print(astar.solution())
 
 
 
